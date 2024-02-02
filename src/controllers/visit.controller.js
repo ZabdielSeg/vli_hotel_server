@@ -15,6 +15,8 @@ export const getAllVisits = async (req, res) => {
 export const createVisit = async (req, res) => {
     const { nombre_del_visitante, visita_con, fecha_y_hora, status, tipo_de_visitante } = req.body
 
+    if(!nombre_del_visitante || !tipo_de_visitante) return res.status(400).json({ errorMessage: 'Favor de llenar los campos'})
+    
     try {
         const newVisit = await VisitSchema.create({
             nombre_del_visitante, 
@@ -24,7 +26,7 @@ export const createVisit = async (req, res) => {
             tipo_de_visitante
         });
 
-        return res.status(200).json(newVisit)
+        return res.status(201).json(newVisit)
     } catch (error) {
         return res.status(500).json({ errorMessage: error.message })
     }
